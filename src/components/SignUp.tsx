@@ -1,11 +1,24 @@
 import React, { useRef } from 'react';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
 
 const SignUp = () => {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const emailPassword = useRef<HTMLInputElement | null>(null);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(emailRef.current?.value, emailPassword.current?.value)
+    const email = emailRef.current ? emailRef.current.value : '';
+    const password = emailPassword.current ? emailPassword.current.value : '';
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
   }
   return (
     <div>
