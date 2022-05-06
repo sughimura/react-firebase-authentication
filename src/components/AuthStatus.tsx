@@ -6,6 +6,10 @@ function AuthStatus() {
   let auth = useAuth();
   let navigate = useNavigate();
 
+  const handleLogout = () => {
+    auth.signOut(() => navigate("/login", { replace: true }));
+  }
+
   if (!auth.user) {
     return <p>Your are not logged in.</p>
   }
@@ -13,6 +17,7 @@ function AuthStatus() {
   return (
     <p>
       Welcome {auth.user}!{" "}
+      <button onClick={handleLogout}>ログアウト</button>
     </p>
   )
 }
