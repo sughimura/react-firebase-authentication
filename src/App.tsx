@@ -6,6 +6,7 @@ import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
 import Layout from './components/Layout';
+import ProtectedPage from './components/ProtectedPage';
 
 function App() {
   return (
@@ -39,10 +40,6 @@ function RequireAuth({ children }: { children: JSX.Element }) {
   }
 
   return children;
-}
-
-function ProtectedPage() {
-  return <h3>Protected</h3>
 }
 
 export default App;
