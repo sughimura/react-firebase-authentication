@@ -2,9 +2,10 @@ import React from 'react';
 import './App.css';
 import SignUp from './components/SignUp';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { Routes, Route, useNavigate, Link, Outlet, useLocation, Navigate } from 'react-router-dom';
+import { Routes, Route, Link, Outlet, useLocation, Navigate } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
+import AuthStatus from './components/AuthStatus';
 
 function App() {
   return (
@@ -45,21 +46,6 @@ function Layout() {
       <Outlet />
     </div>
   );
-}
-
-function AuthStatus() {
-  let auth = useAuth();
-  let navigate = useNavigate();
-
-  if (!auth.user) {
-    return <p>Your are not logged in.</p>
-  }
-
-  return (
-    <p>
-      Welcome {auth.user}!{" "}
-    </p>
-  )
 }
 
 function PublicPage() {
