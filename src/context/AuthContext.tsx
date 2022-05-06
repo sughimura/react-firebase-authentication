@@ -9,6 +9,7 @@ export function useAuthContext() {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<string>('');
+  const [loading, setLoading] = useState(true);
 
   const value = {
     user,
@@ -21,11 +22,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (user) {
         setUser(user.uid);
       }
+      setLoading(false);
     });
     return () => {
       unsubscribed();
     };
   }, []);
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
 }
