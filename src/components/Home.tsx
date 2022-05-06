@@ -1,16 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import { getAuth, signOut } from 'firebase/auth';
+import { useAuth } from '../context/AuthContext';
 
 const Home = () => {
   const navigate = useNavigate();
+  const auth = useAuth();
   const handleLogout = () => {
-    const auth = getAuth();
-    signOut(auth).then(() => {
-      console.log('sign out successful')
-    }).catch((error) => {
-      console.log(error);
-    });
-    navigate("/login", { replace: true })
+    auth.signOut(() => navigate("/login", { replace: true }));
   }
   return (
     <div>

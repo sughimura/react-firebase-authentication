@@ -1,22 +1,19 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut as signOutFirebase } from 'firebase/auth';
 
 interface AuthContextType {
   user: any;
+  signOut: (callback: VoidFunction) => void;
 }
-const AuthContext = createContext<AuthContextType>({ user: '' });
+const AuthContext = createContext<AuthContextType>(null!);
 
 export function useAuth() {
   return useContext(AuthContext);
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<string>('');
+  const [user, setUser] = useState<string | null>('');
   const [loading, setLoading] = useState(true);
-
-  const value = {
-    user,
-  };
 
   useEffect(() => {
     const auth = getAuth();
@@ -31,6 +28,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       unsubscribed();
     };
   }, []);
+
+  let signOut = (callback: VoidFunction) => {
+    const auth = getAuth();
+    signOutFirebase(auth).then(() => {
+      console.log('sign out successful')
+      setUser(null);
+      callback();
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  const value = {
+    user,
+    signOut,
+  };
 
   if (loading) {
     return <p>loading...</p>;
