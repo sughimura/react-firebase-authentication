@@ -1,8 +1,9 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged, signOut as signOutFirebase } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut as signOutFirebase, signInWithEmailAndPassword } from 'firebase/auth';
 
 interface AuthContextType {
   user: any;
+  signIn: (email: string, password: string, callback: VoidFunction) => void;
   signOut: (callback: VoidFunction) => void;
 }
 const AuthContext = createContext<AuthContextType>(null!);
@@ -40,8 +41,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  let signIn = (email: string, password: string, callback: VoidFunction) => {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        setUser(user.uid);
+        callback();
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  }
+
   const value = {
     user,
+    signIn,
     signOut,
   };
 

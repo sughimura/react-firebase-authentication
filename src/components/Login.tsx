@@ -1,10 +1,12 @@
 import React, { useRef, useState } from 'react';
-import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { Link, Navigate } from 'react-router-dom';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
+  const navigate = useNavigate();
   const { user } = useAuth();
+  const auth = useAuth();
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState('');
@@ -12,18 +14,10 @@ const Login = () => {
     event.preventDefault();
     const email = emailRef.current ? emailRef.current.value : '';
     const password = passwordRef.current ? passwordRef.current.value : '';
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-        setError(errorMessage);
-      });
+
+    auth.signIn(email, password, () => {
+      navigate("/home", { replace: true });
+    });
   }
 
   const handleGoogleLogin = () => {
