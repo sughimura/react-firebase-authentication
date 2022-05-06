@@ -1,7 +1,10 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
-const AuthContext = createContext({ user: '' });
+interface AuthContextType {
+  user: any;
+}
+const AuthContext = createContext<AuthContextType>({ user: '' });
 
 export function useAuthContext() {
   return useContext(AuthContext);
