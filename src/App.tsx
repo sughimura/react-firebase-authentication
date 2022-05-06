@@ -9,6 +9,7 @@ import Login from './components/Login';
 function App() {
   return (
     <AuthProvider>
+      <h1>React Firebase Authentication Example</h1>
       <div style={{ margin: '2em' }}>
         <Routes>
           <Route path="/home" element={<Home />} />
