@@ -6,7 +6,7 @@ interface AuthContextType {
 }
 const AuthContext = createContext<AuthContextType>({ user: '' });
 
-export function useAuthContext() {
+export function useAuth() {
   return useContext(AuthContext);
 }
 

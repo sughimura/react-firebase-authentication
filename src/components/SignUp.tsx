@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
-import { useAuthContext } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
 
 const SignUp = () => {
-  const { user } = useAuthContext();
+  const { user } = useAuth();
   const emailRef = useRef<HTMLInputElement | null>(null);
   const emailPassword = useRef<HTMLInputElement | null>(null);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

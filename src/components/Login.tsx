@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { Link, Navigate } from 'react-router-dom';
-import { useAuthContext } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
-  const { user } = useAuthContext();
+  const { user } = useAuth();
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState('');
