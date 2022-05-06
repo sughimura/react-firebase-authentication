@@ -1,14 +1,19 @@
 import React, { useRef, useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useAuth();
   const auth = useAuth();
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState('');
+
+  // @ts-ignore
+  const from = location.state?.from?.pathname || "/";
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const email = emailRef.current ? emailRef.current.value : '';
@@ -30,6 +35,7 @@ const Login = () => {
   } else {
     return (
       <div>
+        <p>You must log in to view the page at {from}</p>
         <h1>ログイン</h1>
         {error && <p style={{ color: 'red' }} >{error}</p>}
         <form onSubmit={handleSubmit}>
