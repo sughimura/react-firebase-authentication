@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Layout from './components/Layout';
 import ProtectedPage from './components/ProtectedPage';
+import PublicPage from './components/PublicPage';
 
 function App() {
   return (
@@ -25,10 +26,6 @@ function App() {
       </div>
     </AuthProvider>
   );
-}
-
-function PublicPage() {
-  return <h3>Public</h3>
 }
 
 function RequireAuth({ children }: { children: JSX.Element }) {
