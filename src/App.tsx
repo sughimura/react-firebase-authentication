@@ -17,14 +17,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
-            <Route
-              path="/protected"
-              element={
-                <RequireAuth>
-                  <ProtectedPage />
-                </RequireAuth>
-              }
-            />
+            <Route path="/protected" element={<RequireAuth><ProtectedPage /></RequireAuth>}/>
           </Route>
         </Routes>
       </div>
