@@ -1,10 +1,8 @@
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
-import { useAuth } from '../context/AuthContext';
 
 const Home = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
   const handleLogout = () => {
     const auth = getAuth();
     signOut(auth).then(() => {
@@ -14,16 +12,12 @@ const Home = () => {
     });
     navigate("/login", { replace: true })
   }
-  if (!user) {
-    return <Navigate to={"/login"} replace />;
-  } else {
-    return (
-      <div>
-        <h1>ホームページ</h1>
-        <button onClick={handleLogout}>ログアウト</button>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h1>ホームページ</h1>
+      <button onClick={handleLogout}>ログアウト</button>
+    </div>
+  );
 };
 
 export default Home;
