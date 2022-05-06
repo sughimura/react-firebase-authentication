@@ -13,6 +13,7 @@ function App() {
       <div style={{ margin: '2em' }}>
         <Routes>
           <Route element={<Layout />}>
+            <Route path="/" element={<PublicPage />} />
             <Route path="/home" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
@@ -55,6 +56,10 @@ function AuthStatus() {
       Welcome {auth.user}!{" "}
     </p>
   )
+}
+
+function PublicPage() {
+  return <h3>Public</h3>
 }
 
 export default App;
