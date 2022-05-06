@@ -37,6 +37,9 @@ function Layout() {
         <li>
           <Link to="/protected">Protected Page</Link>
         </li>
+        <li>
+          <Link to="/home">Home Page</Link>
+        </li>
       </ul>
 
       <Outlet />
