@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthContext';
@@ -7,6 +7,7 @@ const Login = () => {
   const { user } = useAuthContext();
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const [error, setError] = useState('');
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const email = emailRef.current ? emailRef.current.value : '';
@@ -21,6 +22,7 @@ const Login = () => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode, errorMessage);
+        setError(errorMessage);
       });
   }
 
@@ -30,6 +32,7 @@ const Login = () => {
     return (
       <div>
         <h1>ログイン</h1>
+        {error && <p style={{ color: 'red' }} >{error}</p>}
         <form onSubmit={handleSubmit}>
           <div>
             <label>メールアドレス</label>
