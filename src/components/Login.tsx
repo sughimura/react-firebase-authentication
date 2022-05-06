@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -21,20 +20,8 @@ const Login = () => {
   }
 
   const handleGoogleLogin = () => {
-    const auth = getAuth();
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
-        const user = result.user;
-        console.log(user, token);
-      }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.email;
-        console.log(error, errorCode, email);
-        setError(errorMessage);
+    auth.googleLogin(() => {
+      navigate("/home", { replace: true });
     });
   }
 

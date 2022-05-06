@@ -1,10 +1,17 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged, signOut as signOutFirebase, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut as signOutFirebase,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider, signInWithPopup
+} from 'firebase/auth';
 
 interface AuthContextType {
   user: any;
   signIn: (email: string, password: string, callback: VoidFunction) => void;
   signOut: (callback: VoidFunction) => void;
+  googleLogin: (callback: VoidFunction) => void;
 }
 const AuthContext = createContext<AuthContextType>(null!);
 
@@ -57,10 +64,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
   }
 
+  let googleLogin = (callback: VoidFunction) => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        const user = result.user;
+        console.log(user, token);
+        setUser(user.uid);
+        callback();
+      }).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const email = error.email;
+      console.log(error, errorCode, email, errorMessage);
+    });
+  }
+
   const value = {
     user,
     signIn,
     signOut,
+    googleLogin,
   };
 
   if (loading) {
