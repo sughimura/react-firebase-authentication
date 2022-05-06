@@ -2,10 +2,10 @@ import React from 'react';
 import './App.css';
 import SignUp from './components/SignUp';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { Routes, Route, Link, Outlet, useLocation, Navigate } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
-import AuthStatus from './components/AuthStatus';
+import Layout from './components/Layout';
 
 function App() {
   return (
@@ -23,28 +23,6 @@ function App() {
         </Routes>
       </div>
     </AuthProvider>
-  );
-}
-
-function Layout() {
-  return (
-    <div>
-      <AuthStatus />
-
-      <ul>
-        <li>
-          <Link to="/">Public Page</Link>
-        </li>
-        <li>
-          <Link to="/protected">Protected Page</Link>
-        </li>
-        <li>
-          <Link to="/home">Home Page</Link>
-        </li>
-      </ul>
-
-      <Outlet />
-    </div>
   );
 }
 
