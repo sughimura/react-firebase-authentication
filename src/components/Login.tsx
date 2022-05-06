@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthContext';
 
@@ -26,6 +26,24 @@ const Login = () => {
       });
   }
 
+  const handleGoogleLogin = () => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        const user = result.user;
+        console.log(user, token);
+      }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.email;
+        console.log(error, errorCode, email);
+        setError(errorMessage);
+    });
+  }
+
   if (user) {
     return <Navigate to={"/"} replace />;
   } else {
@@ -49,6 +67,7 @@ const Login = () => {
             ユーザ登録は<Link to={'/signup'}>こちら</Link>から
           </div>
         </form>
+        <button onClick={handleGoogleLogin}>Googleログイン</button>
       </div>
     );
   }
